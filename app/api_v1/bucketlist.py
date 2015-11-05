@@ -1,6 +1,6 @@
 from flask import jsonify, request, current_app, g
 
-from ..models import Bucketlist
+from ..models import Bucketlist, Item
 from .authentication import auth
 from .. import db
 from . import api
@@ -50,7 +50,7 @@ def bucketlist(id):
 		return deleted("sucessfully deleted {}".format(bucketlist.name))
 
 
-@api.route('/bucketlist/<int:id>/items',methods=['GET'])
+@api.route('/bucketlist/<int:id>/items',methods=['GET','POST'])
 @auth.login_required
 def bucketlist_items(id):
 	bucketlist = Bucketlist.query.filter_by(id=id).first()
@@ -59,10 +59,19 @@ def bucketlist_items(id):
 	if g.current_user.id != bucketlist.user_id:
 		return unauthorized("You Dont Have Access to this resouce")
 
-	items = [item.to_json() for item in bucketlist.items]
+	if request.method == 'GET':
 
-	response = jsonify({'items': items })
-	response.status_code = 200
-	return response
+		items = [item.to_json() for item in bucketlist.items]
+
+		response = jsonify({'items': items })
+		response.status_code = 200
+		return response
+	if request.method == 'POST':
+		name = request.json.get("item_name")
+		item = Item(name=name)
+		item.bucketlist_id = bucketlist.id
+		item.save()
+
+		return created("successfully created {}".format(item.name))
 
 
