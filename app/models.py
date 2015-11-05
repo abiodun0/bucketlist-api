@@ -1,7 +1,7 @@
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import current_app
+from flask import current_app, g, url_for
 
 
 from . import db
@@ -13,12 +13,32 @@ class BaseModel(db.Model):
 	date_created = db.Column(db.DateTime, index=True, default=datetime.now())
 	date_modified = db.Column(db.DateTime, index=True, default=datetime.now(), onupdate=datetime.now())
 
+
+	def save(self):
+		db.session.add(self)
+		db.session.commit()
+
+	def delete(self):
+		db.session.delete(self)
+		db.session.commit()
+
+
 class Item(BaseModel):
 	__tablename__ = "items"
 	name = db.Column(db.String(100))
 	done = db.Column(db.Boolean, default=False)
 	bucketlist_id = db.Column(db.Integer, db.ForeignKey('bucketlists.id'), nullable=False)
-	pass
+
+	def to_json(self):
+		json_items = {
+		'id': self.id,
+		'name': self.name,
+		'date_created': self.date_created,
+		'last_modified': self.date_modified,
+		'done': self.done
+		}
+
+		return json_items
 
 class User(BaseModel):
 
@@ -35,13 +55,13 @@ class User(BaseModel):
 		return check_password_hash(self.password_hash, password)
 
 	def to_json(self):
-		json = {
+		json_items = {
 		'username': self.username,
 		'email': self.email,
 		'date_registered': self.date_created,
 		'no_of_bucket_list': self.bucketlists.count()
 		}
-		return json
+		return json_items
 
 	def get_bucketlists(self):
 		bucketlists = Bucketlist.query.filter_by(
@@ -75,6 +95,27 @@ class Bucketlist(BaseModel):
 	name = db.Column(db.String(100))
 	items = db.relationship('Item', lazy='dynamic', backref=db.backref('bucketlist', lazy='select'),cascade='all, delete-orphan')
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+	def create(self):
+		self.user_id = g.current_user.id
+
+	def edit(self, name):
+		self.name = name
+		self.date_modified = datetime.now()
+
+	def to_json(self):
+		items = [item.to_json() for item in self.items]
+		json_bucketlist = {
+			'id': self.id,
+			'name': self.name,
+			'no_of_items': self.items.count(),
+			'items': items,
+			'date_created': self.date_created,
+			'last_modified': self.date_modified,
+			'created_by': User.query.get(self.user_id).email}
+
+		return json_bucketlist
+
 
 	def __repr__(self):
 		return self.name
