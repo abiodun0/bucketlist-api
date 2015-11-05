@@ -29,6 +29,10 @@ class Item(BaseModel):
 	done = db.Column(db.Boolean, default=False)
 	bucketlist_id = db.Column(db.Integer, db.ForeignKey('bucketlists.id'), nullable=False)
 
+	def edit(self, name):
+		self.name = name
+		self.date_modified = datetime.now()
+
 	def to_json(self):
 		json_items = {
 		'id': self.id,
