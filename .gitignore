@@ -1,0 +1,7 @@
+# Python Compiled Files
+__pycache__/
+*.py[cod]
+/htmlcov
+.coverage
+# macbook dstore
+.DS_Store
