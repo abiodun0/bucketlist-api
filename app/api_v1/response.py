@@ -22,17 +22,7 @@ def not_found(message, email=" "):
     response.status_code = 404
     return response
 
-def created(message):
-    response = jsonify({'status': 'created','message': message})
-    response.status_code = 201
-    return response
-
-def updated(message):
-    response = jsonify({'status': 'updated','message': message})
-    response.status_code = 200
-    return response
-
-def deleted(message):
-    response = jsonify({'status': 'updated','message': message})
-    response.status_code = 204
+def custom_response(message,status_code):
+    response = jsonify({'message': message})
+    response.status_code = status_code
     return response

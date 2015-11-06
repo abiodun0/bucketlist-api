@@ -4,8 +4,9 @@ from ..models import Bucketlist, Item
 from .authentication import auth
 from .. import db
 from . import api
-from .response import unauthorized, forbidden, created, updated, deleted, not_found
 from .pagination import paginate
+from .response import unauthorized, forbidden, custom_response, not_found
+
 
 
 
@@ -23,15 +24,8 @@ def bucketlists():
 		options = request.args.copy()
 
 		bucket_lists = paginate(user.bucketlists,'api.bucketlists',options,Bucketlist)
-
-		response = jsonify({
-			'bucketlists': [bucketlist.to_json() for bucketlist in bucket_lists['items']],
-			'prev_page': bucket_lists['prev_page'],
-			'next_page': bucket_lists['next_page'],
-			'total_items': bucket_lists['total_item'],
-			'current_page': bucket_lists['current_page']
-
-			})
+		bucket_lists['created_by'] = user.email
+		response = jsonify(bucket_lists)
 
         response.status_code = 200
         return response
@@ -42,7 +36,7 @@ def bucketlists():
 def manage_bucketlist(id):
 	bucketlist = Bucketlist.query.filter_by(id=id).first()
 	if bucketlist is None:
-		return not_found("Bucketlist Not found")
+		return not_found("Bucketlist not found")
 	if g.current_user.id != bucketlist.user_id:
 		return unauthorized("You Dont Have Access to this resouce")
 	if request.method == 'GET':
@@ -54,11 +48,11 @@ def manage_bucketlist(id):
 		name = request.json.get("bucketlist_name")
 		bucketlist.edit(name)
 		bucketlist.save()
-		return updated("successfull updated {}".format(name))
+		return custom_response("successfull updated {}".format(name),201)
 
 	if request.method == 'DELETE':
 		bucketlist.delete()
-		return deleted("sucessfully deleted {}".format(bucketlist.name))
+		return custom_response("sucessfully deleted {}".format(bucketlist.name),204)
 
 
 @api.route('/bucketlist/<int:id>/items',methods=['GET','POST'])
@@ -66,32 +60,26 @@ def manage_bucketlist(id):
 def bucketlist_items(id):
 	bucketlist = Bucketlist.query.filter_by(id=id).first()
 	if bucketlist is None:
-		return not_found("Bucketlist is not found")
+		return not_found("This bucket list is not available")
 	if g.current_user.id != bucketlist.user_id:
-		return unauthorized("You Dont Have Access to this resouce")
+		return unauthorized("You dont have Access to this resouce")
 
-	if request.method == 'GET':
-		options = request.args.copy()
-
-		bucket_lists = paginate(bucketlist.items,'api.bucketlist_items',options,Item,id)
-
-		response = jsonify({
-			'bucketlist_items': [bucketlist.to_json() for bucketlist in bucket_lists['items']],
-			'prev_page': bucket_lists['prev_page'],
-			'next_page': bucket_lists['next_page'],
-			'total_items': bucket_lists['total_item'],
-			'current_page': bucket_lists['current_page']
-
-			})
-
-        response.status_code = 200
-        return response
 	if request.method == 'POST':
 		name = request.json.get("item_name")
 		item = Item(name=name)
 		item.bucketlist_id = bucketlist.id
 		item.save()
 
-		return created("successfully created {}".format(item.name))
+		return custom_response("Successfully created item", 201)
+
+	if request.method == 'GET':
+		options = request.args.copy()
+
+		bucket_items = paginate(bucketlist.items,'api.bucketlist_items',options,Item,id)
+
+		response = jsonify(bucket_items)
+		response.status_code = 200
+        return response
+
 
 

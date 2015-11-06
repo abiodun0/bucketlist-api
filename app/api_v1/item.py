@@ -4,7 +4,7 @@ from ..models import Item, Bucketlist
 from .authentication import auth
 from .. import db
 from . import api
-from .response import unauthorized, forbidden, not_found, created, updated, deleted
+from .response import unauthorized, forbidden, not_found, custom_response
 
 
 @api.route('/bucketlist/<int:id>/items/<int:item_id>',methods=['GET','PUT','DELETE'])
@@ -32,8 +32,8 @@ def bucketlist_item(id,item_id):
 		item.edit(name)
 		item.save()
 
-		return updated("Successfully updated {}".format(name))
+		return custom_response("Successfully updated {}".format(name),201)
 
 	if request.method == 'DELETE':
 		item.delete()
-		return deleted("sucessfully deleted {}".format(bucketlist.name))
+		return custom_response("sucessfully deleted {}".format(bucketlist.name),204)

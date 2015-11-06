@@ -18,17 +18,14 @@ def register():
 		return notacceptable("already exists", email)
 
 	user = User(email=email, password=password, username=username)
-	db.session.add(user)
-	db.session.commit()
+	user.save()
 
 
-	return jsonify({
+	response = jsonify({
 		'msg': "Successfully created user"
 		})
-
-
-
-
+	response.status_code = 201
+	return response
 
 
 @api.route('/user/<int:id>',methods=['GET'])

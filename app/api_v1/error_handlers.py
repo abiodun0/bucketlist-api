@@ -6,7 +6,7 @@ def page_not_found(e):
     print e
     if request.accept_mimetypes.accept_json and \
             not request.accept_mimetypes.accept_html:
-        response = jsonify({'error': 'Not found'})
+        response = jsonify({'error': 'Page not found'})
         response.status_code = 404
         return response
 
