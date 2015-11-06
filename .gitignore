@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 /htmlcov
+/tmp
 .coverage
 # macbook dstore
 .DS_Store
