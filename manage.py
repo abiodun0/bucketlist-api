@@ -25,5 +25,5 @@ def test(coverage=False):
 from app import models
 
 if __name__ == '__main__':
-	os.environ.update({'BUCKETLIST_LIST__API_CONFIG': 'development'})
+	os.environ.update({'BUCKETLIST_LIST__API_CONFIG': 'production'})
 	manager.run()

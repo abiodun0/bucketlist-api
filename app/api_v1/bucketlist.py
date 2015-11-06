@@ -1,16 +1,17 @@
-from flask import jsonify, request, current_app, g
+from flask import jsonify, request, current_app, g, url_for
 
 from ..models import Bucketlist, Item
 from .authentication import auth
 from .. import db
 from . import api
 from .response import unauthorized, forbidden, created, updated, deleted, not_found
+from .pagination import paginate
 
 
 
 @api.route('/bucketlist/', methods=['POST','GET'])
 @auth.login_required
-def create_bucketlist():
+def bucketlists():
 	if request.method ==  'POST':
 		name = request.json.get('bucketlist_name')
 		bucketlist = Bucketlist(name=name)
@@ -19,16 +20,26 @@ def create_bucketlist():
 		return created("successfully created {}".format(name))
 	if request.method == 'GET':
 		user = g.current_user
-		bucketlists = [bucketlist.name for bucketlist in user.bucketlists]
-		print bucketlists
-		response = jsonify({'bucketlists': bucketlists})
-		response.status_code = 200
-		return response
+		options = request.args.copy()
+
+		bucket_lists = paginate(user.bucketlists,'api.bucketlists',options,Bucketlist)
+
+		response = jsonify({
+			'bucketlists': [bucketlist.to_json() for bucketlist in bucket_lists['items']],
+			'prev_page': bucket_lists['prev_page'],
+			'next_page': bucket_lists['next_page'],
+			'total_items': bucket_lists['total_item'],
+			'current_page': bucket_lists['current_page']
+
+			})
+
+        response.status_code = 200
+        return response
 
 
 @api.route('/bucketlist/<int:id>/',methods=['GET','PUT','DELETE'])
 @auth.login_required
-def bucketlist(id):
+def manage_bucketlist(id):
 	bucketlist = Bucketlist.query.filter_by(id=id).first()
 	if bucketlist is None:
 		return not_found("Bucketlist Not found")
@@ -60,12 +71,21 @@ def bucketlist_items(id):
 		return unauthorized("You Dont Have Access to this resouce")
 
 	if request.method == 'GET':
+		options = request.args.copy()
 
-		items = [item.to_json() for item in bucketlist.items]
+		bucket_lists = paginate(bucketlist.items,'api.bucketlists',options,Item)
 
-		response = jsonify({'items': items })
-		response.status_code = 200
-		return response
+		response = jsonify({
+			'bucketlists': [bucketlist.to_json() for bucketlist in bucket_lists['items']],
+			'prev_page': bucket_lists['prev_page'],
+			'next_page': bucket_lists['next_page'],
+			'total_items': bucket_lists['total_item'],
+			'current_page': bucket_lists['current_page']
+
+			})
+
+        response.status_code = 200
+        return response
 	if request.method == 'POST':
 		name = request.json.get("item_name")
 		item = Item(name=name)

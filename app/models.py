@@ -81,7 +81,7 @@ class User(BaseModel):
 		self.password_hash = generate_password_hash(password)
 
 	def generate_auth_token(self, expiration=3600):
-		s = Serializer(current_app.config['SECRET_KEY'], expiration)
+		s = Serializer(current_app.config['SECRET_KEY'], current_app.config['TOKEN_EXPIRE'] or expiration)
 		return s.dumps({'id': self.id})
 
 	@staticmethod
@@ -89,7 +89,6 @@ class User(BaseModel):
 		s = Serializer(current_app.config['SECRET_KEY']) 
 		try:
 			data = s.loads(token)
-			print data
 		except:
 			return None
 		return User.query.get(data['id'])

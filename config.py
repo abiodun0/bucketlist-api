@@ -6,14 +6,13 @@ class BaseConfig:
     """
     
     SECRET_KEY = os.environ.get('BUCKETLIST_SECRET_KEY') or 'NoSecretKey'
-    DATE_TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
-    DEFAULT_PER_PAGE = 20
-    MAX_PER_PAGE = 100
-    
+    #ATE_TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+    DEFAULT_PER_PAGE = 2
+    MAX_PER_PAGE = 1000
+    TOKEN_EXPIRE = 6000
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-
-
+    FLASK_COVERAGE = "ieoajifeoajefoa"
 
         
 class DevelopmentConfig(BaseConfig):
