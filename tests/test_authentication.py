@@ -1,3 +1,4 @@
+import base64
 import unittest
 import json
 from flask import current_app, url_for, jsonify, g
@@ -18,6 +19,7 @@ class AuthenticationTestCase(unittest.TestCase):
         self.app_context.push()
         
         # setup the db:
+        db.drop_all()
         db.create_all()
 
         # create test user:
@@ -27,8 +29,20 @@ class AuthenticationTestCase(unittest.TestCase):
             password='anything'
         )
         user.save()
-        # init the test client:
+
         self.client = self.app.test_client()
+
+        #response = self.client.post()
+
+        login_details = {
+    	'email': 'anonymous@yahoo.com',
+    	'password': 'anything'}
+    	response = self.client.post(
+    		url_for('api.login'),
+            headers=self.get_api_headers(),
+            data=json.dumps(login_details)
+            )
+    	self.token = json.loads(response.data)['token']
 
 
     def tearDown(self):
@@ -36,17 +50,14 @@ class AuthenticationTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-
-
-    def get_api_headers(self, access_token=''):
-        """ formats the headers to be used when accessing API endpoints.
-        """
-        return {
-            'Authorization': "Basic {}".format(access_token),
+    def get_api_headers(self, email='', password=''): 
+    	return {
+            'Authorization':
+                'Basic ' + base64.b64encode(
+                    (email + ':' + password).encode('utf-8')).decode('utf-8'),
             'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        }
-    
+            'Content-Type': 'application/json'
+            }
 
     def test_user_can_register_with_username(self):
         """ 
@@ -79,10 +90,15 @@ class AuthenticationTestCase(unittest.TestCase):
             )
         #import pdb; pdb.set_trace()
         self.assertEqual(response.status_code, 200)
+    def test_protected_url(self):
 
-    def test_for_login_page(self):
+    	response = self.client.get(url_for('api.bucketlists'),
+     		headers=self.get_api_headers(self.token, '')
+     		)
+     	#import pdb; pdb.set_trace()
+     	self.assertEqual(response.status_code, 200)
 
-    def test_wrong_user_can_not_login(self):
+    def test_unregistered_user_cant_login(self):
     	login_details = {
                 'email': 'anonymous1@yahoo.com',
                 'password': 'anything'}
@@ -96,6 +112,7 @@ class AuthenticationTestCase(unittest.TestCase):
         #import pdb; pdb.set_trace()
         self.assertEqual(response.status_code, 401)
         #self.assertEqual(response_data.get('email'), "nobody@yahoo.com.com")
+
 
 
 if __name__ == "__main__":

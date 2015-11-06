@@ -31,7 +31,7 @@ def login():
     password = request.json.get('password')
 
     # verifies and returns a token for the user
-    if not verify_password(email,password):
+    if not verify_password(email, password):
     	return unauthorized("Wrong combination of email and password")
 
     token = get_auth_token()

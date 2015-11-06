@@ -24,7 +24,6 @@ def register():
 	response = jsonify({
 		'username': username,
 		'email': email,
-		'url_for'
 		'msg': "Successfully created user"
 		})
 	response.status_code = 201

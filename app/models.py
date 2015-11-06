@@ -29,8 +29,9 @@ class Item(BaseModel):
 	done = db.Column(db.Boolean, default=False)
 	bucketlist_id = db.Column(db.Integer, db.ForeignKey('bucketlists.id'), nullable=False)
 
-	def edit(self, name):
+	def edit(self, name,done=False):
 		self.name = name
+		self.done = done
 		self.date_modified = datetime.now()
 
 	def to_json(self):
@@ -55,7 +56,7 @@ class User(BaseModel):
 	def __str__(self):
 		return self.email if self.email else self.username
 
-	def verify_password(self,password):
+	def verify_password(self, password):
 		return check_password_hash(self.password_hash, password)
 
 	def to_json(self):
@@ -120,6 +121,6 @@ class Bucketlist(BaseModel):
 		return json_bucketlist
 
 
-	def __repr__(self):
+	def __str__(self):
 		return self.name
 	pass

@@ -62,7 +62,7 @@ def bucketlist_items(id):
 	if bucketlist is None:
 		return not_found("This bucket list is not available")
 	if g.current_user.id != bucketlist.user_id:
-		return unauthorized("You dont have Access to this resouce")
+		return unauthorized("You dont have Access to this resource")
 
 	if request.method == 'POST':
 		name = request.json.get("item_name")
