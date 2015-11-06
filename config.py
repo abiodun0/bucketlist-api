@@ -1,5 +1,6 @@
 import os
 from datetime import timedelta
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 class BaseConfig:
     """ Defines base configurations that are common across all deploys.
@@ -25,7 +26,8 @@ class TestingConfig(BaseConfig):
     """ Defines configurations for testing
     """
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = "postgresql://bucketlist_user:pass_12@127.0.0.1/bucketlist"
+    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'bucketlistdb-test.sqlite')
    
 
 

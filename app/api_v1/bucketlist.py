@@ -18,7 +18,7 @@ def bucketlists():
 		bucketlist = Bucketlist(name=name)
 		bucketlist.create()
 		bucketlist.save()
-		return created("successfully created {}".format(name))
+		return custom_response("successfully created {}".format(name),201)
 	if request.method == 'GET':
 		user = g.current_user
 		options = request.args.copy()
@@ -70,7 +70,7 @@ def bucketlist_items(id):
 		item.bucketlist_id = bucketlist.id
 		item.save()
 
-		return custom_response("Successfully created item", 201)
+		return custom_response("Successfully created item {}".format(item.name), 201)
 
 	if request.method == 'GET':
 		options = request.args.copy()

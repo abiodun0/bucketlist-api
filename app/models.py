@@ -80,8 +80,8 @@ class User(BaseModel):
 	def password(self, password):
 		self.password_hash = generate_password_hash(password)
 
-	def generate_auth_token(self, expiration=3600):
-		s = Serializer(current_app.config['SECRET_KEY'], current_app.config['TOKEN_EXPIRE'] or expiration)
+	def generate_auth_token(self, expiration=None):
+		s = Serializer(current_app.config['SECRET_KEY'], expiration or current_app.config['TOKEN_EXPIRE'])
 		return s.dumps({'id': self.id})
 
 	@staticmethod
