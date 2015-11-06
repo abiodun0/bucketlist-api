@@ -5,12 +5,7 @@ from . import api
 from .. import db
 from .response import notacceptable, forbidden, unauthorized
 
-@api.route('/login',methods=['GET'])
-def index():
-	return jsonify({
-		'name': "Abiodun",
-		'post': "Software Developer"
-		})
+
 
 @api.route('/auth/register',methods=['POST'])
 def register():
@@ -33,12 +28,7 @@ def register():
 
 
 
-# logout endpoint
-@api.route('/auth/logout/', methods=['POST'])
-@auth.login_required
-def logout():
-    #session.clear()
-    return jsonify({'status': 'Logged Out'})
+
 
 
 @api.route('/user/<int:id>',methods=['GET'])

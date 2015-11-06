@@ -41,12 +41,14 @@ def login():
     response.status_code = 200
     return response
 
-@api.route('/auth/token/', methods=['GET'])
-def get_token():
-	response = jsonify({'token': get_auth_token()})
-	response.status_code = 200
-	return response
+# logout endpoint
+@api.route('/auth/logout/', methods=['POST'])
+@auth.login_required
+def logout():
 
+    response = jsonify({'status': 'Logged Out'})
+    response.status_code = 201
+    return repsonse
 
 
 def get_auth_token():

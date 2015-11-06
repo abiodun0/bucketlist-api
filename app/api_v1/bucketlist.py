@@ -73,10 +73,10 @@ def bucketlist_items(id):
 	if request.method == 'GET':
 		options = request.args.copy()
 
-		bucket_lists = paginate(bucketlist.items,'api.bucketlists',options,Item)
+		bucket_lists = paginate(bucketlist.items,'api.bucketlist_items',options,Item,id)
 
 		response = jsonify({
-			'bucketlists': [bucketlist.to_json() for bucketlist in bucket_lists['items']],
+			'bucketlist_items': [bucketlist.to_json() for bucketlist in bucket_lists['items']],
 			'prev_page': bucket_lists['prev_page'],
 			'next_page': bucket_lists['next_page'],
 			'total_items': bucket_lists['total_item'],

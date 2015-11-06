@@ -14,13 +14,13 @@ def bucketlist_item(id,item_id):
 	item = Item.query.filter_by(id=item_id).first()
 
 	if bucketlist is None or item is None:
-		return not_found("Bucketlist is not found")
+		return not_found("This resource or bucket list doesnt exist")
 
 	if item not in bucketlist.items:
-		return forbidden("Wrong access information")
+		return forbidden("You dont have access to this resource")
 	
 	if g.current_user.id != bucketlist.user_id:
-		return unauthorized("You Dont Have Access to this resouce")
+		return unauthorized("You Dont Have Access to this resource")
 
 	if request.method == 'GET':
 		response = jsonify({'item': item.to_json()})
