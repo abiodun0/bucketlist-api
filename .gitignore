@@ -6,3 +6,5 @@ __pycache__/
 .coverage
 # macbook dstore
 .DS_Store
+/migrations
+bucketlist-test.sqlite
