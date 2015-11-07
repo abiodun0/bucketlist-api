@@ -142,7 +142,8 @@ class BucketlistTestCase(unittest.TestCase):
     		)
 
     	response_data = json.loads(response.data)
-    	import pdb; pdb.set_trace()
+
+    	self.assertIsNotNone(response_data['message'])
 
     	self.assertEqual(response.status_code,201)
 
