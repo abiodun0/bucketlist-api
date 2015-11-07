@@ -29,7 +29,7 @@ class BucketlistTestCase(unittest.TestCase):
         user.save()
 
 
-        self.user = User(email="abiodun2@golden0.com",password="passes",username="abiodun")
+        self.user = User(email="abiodun1@golden0.com",password="passes",username="abiodun")
         self.user.save()
         self.bucket_item = Bucketlist(name="Bucket List 1", user_id=self.user.id)
         self.bucket_item.save()

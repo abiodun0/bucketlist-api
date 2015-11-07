@@ -13,7 +13,7 @@ class ModelTestCase(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         db.create_all()
-        self.user = User(email="abiodun@golden0.com",password="passes")
+        self.user = User(email="abiodun1@golden0.com",password="passes")
         self.user.save()
         self.bucket_item = Bucketlist(name="Bucket List 1", user_id=self.user.id)
         self.bucket_item.save()

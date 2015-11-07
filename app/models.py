@@ -57,8 +57,8 @@ class User(BaseModel):
 	""" Database model for the user"""
 
 	__tablename__ = "users"
-	username = db.Column(db.String(64), unique=True)
-	email = db.Column(db.Text, nullable=False)
+	username = db.Column(db.String(64), nullable=True)
+	email = db.Column(db.Text, nullable=False, unique=True)
 	password_hash = db.Column(db.Text, nullable=False)
 	bucketlists = db.relationship('Bucketlist', lazy='dynamic', backref=db.backref('owned_by', lazy='select'),cascade='all, delete-orphan')
 
