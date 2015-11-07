@@ -13,7 +13,8 @@ class BucketlistTestCase(unittest.TestCase):
         self.app = create_app('testing')
         self.app_context = self.app.app_context()
         self.app_context.push()
-        
+
+    
         # setup the db:
         db.drop_all()
         db.create_all()
@@ -25,6 +26,16 @@ class BucketlistTestCase(unittest.TestCase):
             password='anything'
         )
         user.save()
+
+        self.user = User(email="abiodun2@golden0.com",password="passes",username="abiodun")
+        self.user.save()
+        self.bucket_item = Bucketlist(name="Bucket List 1", user_id=self.user.id)
+        self.bucket_item.save() 
+
+        self.user2 = User(email="abiodun2@golden0.com",password="passes",username="bimps")
+        self.user2.save()
+        self.bucket_item2 = Bucketlist(name="Bucket List 2", user_id=self.user2.id)
+        self.bucket_item2.save()  
 
         self.client = self.app.test_client()
 
@@ -83,6 +94,11 @@ class BucketlistTestCase(unittest.TestCase):
 
     def test_for_protected_url(self):
     	response = self.client.get(url_for('api.bucketlists'),headers=self.get_api_headers())
+
+    	self.assertEqual(response.status_code,401)
+
+    def test_for_not_authorized(self):
+    	response = self.client.get(url_for('api.manage_bucketlist',id=1),headers=self.get_api_headers(self.token))
 
     	self.assertEqual(response.status_code,401)
 

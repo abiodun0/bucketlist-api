@@ -1,1 +1,1 @@
-## Bucketlist API
+## Bucketlist API [![Build Status](https://travis-ci.org/andela-ashuaib/bucketlist-api.svg)](https://travis-ci.org/andela-ashuaib/bucketlist-api)
