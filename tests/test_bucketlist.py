@@ -105,13 +105,33 @@ class BucketlistTestCase(unittest.TestCase):
 
     def test_for_not_authorized(self):
     	response = self.client.get(url_for('api.manage_bucketlist',id=1),headers=self.get_api_headers(self.token))
+    	response2 = self.client.get(url_for('api.bucketlist_items',id=1),headers=self.get_api_headers(self.token))
 
     	self.assertEqual(response.status_code,401)
+    	self.assertEqual(response2.status_code,401)
 
-    def test_get_item_authorized(self):
+    def test_get_bucketlist_authorized(self):
     	response = self.client.get(url_for('api.manage_bucketlist',id=3),headers=self.get_api_headers(self.token))
 
     	self.assertEqual(response.status_code,200)
+
+    def test_get_bucketlist_item_authorized(self):
+    	response = self.client.get(url_for('api.bucketlist_items',id=3),headers=self.get_api_headers(self.token))
+
+    	self.assertEqual(response.status_code,200)
+
+    def test_get_bucketlist_add_new_item_authorized(self):
+    	new_item = {
+    	    	"item name": "New Item Bucketlist"
+    	}
+    	response = self.client.post(url_for('api.bucketlist_items',id=3),headers=self.get_api_headers(self.token),
+    		data=json.dumps(new_item))
+
+    	self.assertEqual(response.status_code,201)
+    def test_get_bucketlist_no_bucket_list(self):
+    	response = self.client.get(url_for('api.bucketlist_items',id=5),headers=self.get_api_headers(self.token))
+
+    	self.assertEqual(response.status_code,404)
 
     def test_get_edit_bucketlist(self):
     	edit_bucket_item = {
@@ -120,6 +140,9 @@ class BucketlistTestCase(unittest.TestCase):
     	response = self.client.put(url_for('api.manage_bucketlist',id=3),headers=self.get_api_headers(self.token),
     		data=json.dumps(edit_bucket_item)
     		)
+
+    	response_data = json.loads(response.data)
+    	import pdb; pdb.set_trace()
 
     	self.assertEqual(response.status_code,201)
 
