@@ -27,7 +27,9 @@ class TestingConfig(BaseConfig):
     """ Defines configurations for testing
     """
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = "postgresql://bucketlist_user:pass_12@127.0.0.1/bucketlist_test"
+    #SQLALCHEMY_DATABASE_URI = "postgresql://bucketlist_user:pass_12@127.0.0.1/bucketlist_test"
+    SQLALCHEMY_DATABASE_URI = os.environ.get('BUCKETLIST_TEST_DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'bucketlist-test.sqlite')
    
 
 
