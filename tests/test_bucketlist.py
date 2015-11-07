@@ -27,6 +27,7 @@ class BucketlistTestCase(unittest.TestCase):
         )
         user.save()
 
+
         self.user = User(email="abiodun2@golden0.com",password="passes",username="abiodun")
         self.user.save()
         self.bucket_item = Bucketlist(name="Bucket List 1", user_id=self.user.id)
@@ -35,9 +36,14 @@ class BucketlistTestCase(unittest.TestCase):
         self.user2 = User(email="abiodun2@golden0.com",password="passes",username="bimps")
         self.user2.save()
         self.bucket_item2 = Bucketlist(name="Bucket List 2", user_id=self.user2.id)
-        self.bucket_item2.save()  
+        self.bucket_item2.save() 
+
+
+        bucket_item = Bucketlist(name="Bucket List", user_id=user.id)
+        bucket_item.save() 
 
         self.client = self.app.test_client()
+
 
         #response = self.client.post()
 
@@ -101,6 +107,27 @@ class BucketlistTestCase(unittest.TestCase):
     	response = self.client.get(url_for('api.manage_bucketlist',id=1),headers=self.get_api_headers(self.token))
 
     	self.assertEqual(response.status_code,401)
+
+    def test_get_item_authorized(self):
+    	response = self.client.get(url_for('api.manage_bucketlist',id=3),headers=self.get_api_headers(self.token))
+
+    	self.assertEqual(response.status_code,200)
+
+    def test_get_edit_bucketlist(self):
+    	edit_bucket_item = {
+    	"bucketlist_name": "Edited Bucketlist"
+    	}
+    	response = self.client.put(url_for('api.manage_bucketlist',id=3),headers=self.get_api_headers(self.token),
+    		data=json.dumps(edit_bucket_item)
+    		)
+
+    	self.assertEqual(response.status_code,201)
+
+    def test_get_edit_bucketlist(self):
+    	response = self.client.delete(url_for('api.manage_bucketlist',id=3),headers=self.get_api_headers(self.token)
+    		)
+
+    	self.assertEqual(response.status_code,204)
 
     def test_for_bucket_list_item_not_found(self):
     	response = self.client.get(url_for('api.manage_bucketlist',id=5),headers=self.get_api_headers(self.token))
