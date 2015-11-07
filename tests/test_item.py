@@ -88,3 +88,18 @@ class BucketlistTestCase(unittest.TestCase):
         self.assertEqual(response.status_code,404)
         self.assertEqual(response2.status_code,403)
         self.assertEqual(response3.status_code,401)
+
+    def test_for_each_authenticated_method(self):
+        item = {
+        "item_name": "changed item"
+        }
+
+        response = self.client.get(url_for('api.bucketlist_item',id=3,item_id=3),headers=self.get_api_headers(self.token))
+        response2 = self.client.put(url_for('api.bucketlist_item',id=3,item_id=3),headers=self.get_api_headers(self.token),
+            data=json.dumps(item))
+        response3 = self.client.delete(url_for('api.bucketlist_item',id=3,item_id=3),headers=self.get_api_headers(self.token))
+
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(response2.status_code,201)
+        self.assertEqual(response3.status_code,204)
+

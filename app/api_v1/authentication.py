@@ -47,7 +47,7 @@ def logout():
 
     response = jsonify({'status': 'Logged Out'})
     response.status_code = 201
-    return repsonse
+    return response
 
 
 def get_auth_token():

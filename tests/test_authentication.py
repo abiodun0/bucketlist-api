@@ -113,11 +113,14 @@ class AuthenticationTestCase(unittest.TestCase):
     def test_protected_url(self):
 
     	response = self.client.get(url_for('api.bucketlists'),
-     		headers=self.get_api_headers(self.token, '')
+     		headers=self.get_api_headers(self.token)
      		)
      	#import pdb; pdb.set_trace()
      	self.assertEqual(response.status_code, 200)
+    def test_logout_page(self):
+    	response = self.client.post(url_for('api.logout'),headers=self.get_api_headers(self.token))
 
+     	self.assertEqual(response.status_code, 201)
     def test_unregistered_user_cant_login(self):
     	login_details = {
                 'email': 'anonymous1@yahoo.com',
