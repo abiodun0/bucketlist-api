@@ -103,7 +103,7 @@ class BucketlistTestCase(unittest.TestCase):
     	self.assertEqual(response.status_code,401)
 
     def test_for_bucket_list_item_not_found(self):
-    	response = self.client.get(url_for('api.manage_bucketlist',id=2),headers=self.get_api_headers(self.token))
+    	response = self.client.get(url_for('api.manage_bucketlist',id=5),headers=self.get_api_headers(self.token))
 
     	self.assertEqual(response.status_code,404)
 
