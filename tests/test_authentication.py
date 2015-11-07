@@ -122,6 +122,7 @@ class AuthenticationTestCase(unittest.TestCase):
 
     def test_unregistered_user_cant_login(self):
         """Test for unregistered user cant login """
+        
     	login_details = {
                 'email': 'anonymous1@yahoo.com',
                 'password': 'anything'}
@@ -132,9 +133,7 @@ class AuthenticationTestCase(unittest.TestCase):
             )
 
     	response_data = json.loads(response.data)
-        #import pdb; pdb.set_trace()
         self.assertEqual(response.status_code, 401)
-        #self.assertEqual(response_data.get('email'), "nobody@yahoo.com.com")
 
 
 

@@ -139,7 +139,4 @@ class Bucketlist(BaseModel):
 
 		return json_bucketlist
 
-
-	def __str__(self):
-		return self.name
 	pass

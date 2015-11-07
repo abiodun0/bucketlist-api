@@ -5,7 +5,9 @@ from app import create_app, db
 from app.models import User, Item, Bucketlist
 
 
-class UserModelTestCase(unittest.TestCase):
+class ModelTestCase(unittest.TestCase):
+    """Test cases for the models """
+
     def setUp(self):
         self.app = create_app('testing')
         self.app_context = self.app.app_context()
@@ -25,8 +27,15 @@ class UserModelTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def test_for_data_exsitence(self):
+        """Test to check if the data were created"""
         bucketlist = Bucketlist.query.all()
         self.assertEqual(len(bucketlist),1)
+
+    def test_for_user_get_bucket_list(self):
+        """test for get the bucketlist for a particular user"""
+        bucketlists = self.user.get_bucketlists()
+
+        self.assertIsNotNone(bucketlists)
     def test_for_data_exsitence(self):
         self.bucket_item.delete()
         bucketlist = Bucketlist.query.all()
@@ -66,3 +75,7 @@ class UserModelTestCase(unittest.TestCase):
         self.assertIsNotNone(item_json)
         self.assertIsNotNone(bucket_json)
         self.assertIsNotNone(user_json)
+
+
+if __name__ == "__main__":
+    unittest.main()
