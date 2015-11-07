@@ -83,6 +83,8 @@ class BucketlistTestCase(unittest.TestCase):
     def test_for_bucket_item_not_found(self):
         response = self.client.get(url_for('api.bucketlist_item',id=5,item_id=5),headers=self.get_api_headers(self.token))
         response2 = self.client.get(url_for('api.bucketlist_item',id=3,item_id=1),headers=self.get_api_headers(self.token))
+        response3 = self.client.get(url_for('api.bucketlist_item',id=2,item_id=2),headers=self.get_api_headers(self.token))
 
         self.assertEqual(response.status_code,404)
         self.assertEqual(response2.status_code,403)
+        self.assertEqual(response3.status_code,401)
