@@ -14,11 +14,10 @@ def create_app(config_name):
 
     app.config.from_object(current_config)
 
-    # current_config.init_app(app)
-
     db.init_app(app)
 
     from .api_v1 import api
+    #prefixes all the url with /api/v1/
     app.register_blueprint(api, url_prefix='/api/v1')
 
     return app

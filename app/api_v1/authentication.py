@@ -4,29 +4,46 @@ from .response import unauthorized, forbidden
 from . import api
 from ..models import User
 
+
+#initializes the HTTPBasic auth library to be used for regular authenticaiton
 auth = HTTPBasicAuth()
 
 
+#Login Error Handler
 @auth.error_handler
 def auth_error():
-	return unauthorized("Invalid Credentials")
+    """Decorator function for login failed attempt"""
+    return unauthorized("Invalid Credentials")
 
+#login authenticaiton verifier
 @auth.verify_password
 def verify_password(email_or_token, password):
-	if password is '':
+    """ Handles the login/token verificaiton
+    @params email/token, optional password
+    @sets global user object
+    @returns Bool True/False
+
+    """
+    #checks if the password is empty
+    if password is '':
+
+        #get the user with the assigned token and store it in the global variable object
 		g.current_user = User.verify_auth_token(email_or_token) 
-		g.token_used = True
+
+        #returns true if it's verified succesfully
 		return g.current_user is not None
-	user = User.query.filter_by(email=email_or_token).first() 
-	if not user:
+
+    #checks for the email and returns false if not avaible
+    user = User.query.filter_by(email=email_or_token).first() 
+    if not user:
 		return False
-	g.current_user = user
-	return user.verify_password(password)
+    g.current_user = user
+    return user.verify_password(password)
 
-
+ #Login endpoint
 @api.route('/auth/login/', methods=['POST'])
 def login():
-    '''Logins a user'''
+    """ Logs in A user """
     email = request.json.get('email')
     password = request.json.get('password')
 
@@ -51,6 +68,9 @@ def logout():
 
 
 def get_auth_token():
-    '''Generates a token'''
+    """ Utility funciton to generate authentication token
+    @params None
+    @return token
+    """
     token = g.current_user.generate_auth_token()
     return token.decode('ascii')
