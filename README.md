@@ -13,17 +13,14 @@ The available endpoints are listed below:
 
 EndPoint |Functionality|Public Access
 ---------|-------------|--------------
-POST /auth/register|Registers a new user on the service|TRUE
-POST /auth/login|Logs a user in|TRUE
-GET /auth/logout|Logs out this user|FALSE
-GET /user/|Get the profile of this user|FALSE
-PUT /user/|Update the profile of this user|FALSE
-DELETE /user/|Delete this user account|FALSE
-POST /bucketlists/|Create a new bucket list|FALSE
-GET /bucketlists/|List all the created bucket lists|FASLE
-GET /bucketlists/:id|Get single bucket list (along with it's items)|FALSE
-PUT /bucketlists/:id|Update this bucket list|FALSE
-DELETE /bucketlists/:id|Delete this single bucket list|FALSE
-POST /bucketlists/:id/items/|Create a new item in bucket list|FALSE
-PUT /bucketlists/:id/items/:item_id|Update a bucket list item|FALSE
-DELETE /bucketlists/:id/items/:item_id|Delete an item in a bucket list|FALSE
+POST /api/v1/auth/register|Registers a new user on the service|TRUE
+POST /api/v1/auth/login|Logs a user in|TRUE
+POST /api/v1/auth/logout|Logs out this user|FALSE
+POST /api/v1/bucketlists/|Create a new bucket list|FALSE
+GET /api/v1/bucketlists/|List all the created bucket lists|FASLE
+GET /api/v1/bucketlists/:id|Get single bucket list (along with it's items)|FALSE
+PUT /api/v1/bucketlists/:id|Update this bucket list|FALSE
+DELETE /api/v1/bucketlists/:id|Delete this single bucket list|FALSE
+POST /api/v1/bucketlists/:id/items/|Create a new item in bucket list|FALSE
+PUT /api/v1/bucketlists/:id/items/:item_id|Update a bucket list item|FALSE
+DELETE /api/v1/bucketlists/:id/items/:item_id|Delete an item in a bucket list|FALSE
