@@ -36,7 +36,7 @@ class ModelTestCase(unittest.TestCase):
         bucketlists = self.user.get_bucketlists()
 
         self.assertIsNotNone(bucketlists)
-    def test_for_data_exsitence(self):
+    def test_for_data_delete(self):
         self.bucket_item.delete()
         bucketlist = Bucketlist.query.all()
         self.assertNotEqual(len(bucketlist),1)
