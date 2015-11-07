@@ -143,11 +143,9 @@ class BucketlistTestCase(unittest.TestCase):
 
     	response_data = json.loads(response.data)
 
-    	self.assertIsNotNone(response_data['message'])
-
     	self.assertEqual(response.status_code,201)
 
-    def test_get_edit_bucketlist(self):
+    def test_delete_bucketlist(self):
     	response = self.client.delete(url_for('api.manage_bucketlist',id=3),headers=self.get_api_headers(self.token)
     		)
 
