@@ -32,16 +32,18 @@ class ModelTestCase(unittest.TestCase):
         self.assertEqual(len(bucketlist),1)
 
     def test_for_user_get_bucket_list(self):
-        """test for get the bucketlist for a particular user"""
+        """Test for get the bucketlist for a particular user"""
         bucketlists = self.user.get_bucketlists()
 
         self.assertIsNotNone(bucketlists)
     def test_for_data_delete(self):
+        """ Test for the delete feature"""
         self.bucket_item.delete()
         bucketlist = Bucketlist.query.all()
         self.assertNotEqual(len(bucketlist),1)
 
     def test_for_edit_feature(self):
+        """ test for edit feature """
         self.item.edit("My Test Item")
         self.item.save()
         self.bucket_item.edit("My Test Item")
@@ -51,26 +53,34 @@ class ModelTestCase(unittest.TestCase):
         self.assertEqual(self.item.name, "My Test Item")
 
     def test_password_setter(self):
+        """Test for password  setter"""
         u = User(password='cat')
         self.assertTrue(u.password_hash is not None)
 
     def test_no_password_getter(self):
+        """ Test for password raises error"""
         u = User(password='cat')
         with self.assertRaises(AttributeError):
             u.password
 
     def test_password_salts_are_random(self):
+        """Test password salts are random"""
         u = User(password='cat')
         u2 = User(password='cat')
         self.assertTrue(u.password_hash != u2.password_hash)
 
     def test_user_str(self):
+        """ Test string function of user """
         user = str(self.user)
         self.assertIsNotNone(user)
 
     def test_for_to_json(self):
+        """ Test to user_json """
+        #user to json
         user_json = self.user.to_json()
+        #bucket-json to json
         bucket_json = self.bucket_item.to_json()
+        #itme json to json
         item_json = self.item.to_json()
         self.assertIsNotNone(item_json)
         self.assertIsNotNone(bucket_json)

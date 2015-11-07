@@ -11,9 +11,13 @@ from flask.ext.migrate import Migrate, MigrateCommand
 
 from app import create_app, db
 
+
+#create the app from the pre-configured action given by the user
 app = create_app(os.getenv('BUCKETLIST_LIST__API_CONFIG') or 'default')
 
+#instantiate the app in a manager environmate
 manager = Manager(app)
+
 migrate = Migrate(app, db)
 
 manager.add_command('db', MigrateCommand)
