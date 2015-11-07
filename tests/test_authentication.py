@@ -50,12 +50,12 @@ class AuthenticationTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    def get_api_headers(self, email='', password=''): 
+    def get_api_headers(self, token=''): 
         """Utility method that returns the api headers with token if set"""
     	return {
             'Authorization':
                 'Basic ' + base64.b64encode(
-                    (email + ':' + password).encode('utf-8')).decode('utf-8'),
+                    (token + ':' + '').encode('utf-8')).decode('utf-8'),
             'Accept': 'application/json',
             'Content-Type': 'application/json'
             }

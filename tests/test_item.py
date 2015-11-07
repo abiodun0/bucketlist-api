@@ -72,12 +72,12 @@ class BucketlistTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    def get_api_headers(self, email='',password=''):
+    def get_api_headers(self, token='',):
         """ get authorization header with login credentials or token"""
     	return {
             'Authorization':
                 'Basic ' + base64.b64encode(
-                    (email + ':' + password).encode('utf-8')).decode('utf-8'),
+                    (token + ':' + '').encode('utf-8')).decode('utf-8'),
             'Accept': 'application/json',
             'Content-Type': 'application/json'
             }
