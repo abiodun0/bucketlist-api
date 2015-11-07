@@ -58,7 +58,7 @@ def login():
     return response
 
 # logout endpoint
-@api.route('/auth/logout/', methods=['POST'])
+@api.route('/auth/logout/', methods=['GET'])
 @auth.login_required
 def logout():
 

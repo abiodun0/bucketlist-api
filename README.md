@@ -15,7 +15,7 @@ EndPoint |Functionality|Public Access
 ---------|-------------|--------------
 POST /api/v1/auth/register|Registers a new user on the service|TRUE
 POST /api/v1/auth/login|Logs a user in|TRUE
-POST /api/v1/auth/logout|Logs out this user|FALSE
+GET /api/v1/auth/logout|Logs out this user|FALSE
 POST /api/v1/bucketlists/|Create a new bucket list|FALSE
 GET /api/v1/bucketlists/|List all the created bucket lists|FASLE
 GET /api/v1/bucketlists/:id|Get single bucket list (along with it's items)|FALSE
