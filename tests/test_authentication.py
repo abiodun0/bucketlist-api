@@ -51,6 +51,7 @@ class AuthenticationTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def get_api_headers(self, email='', password=''): 
+        """Utility method that returns the api headers with token if set"""
     	return {
             'Authorization':
                 'Basic ' + base64.b64encode(
@@ -60,9 +61,7 @@ class AuthenticationTestCase(unittest.TestCase):
             }
 
     def test_user_can_register_with_username(self):
-        """ 
-        Test for user registration form your specifying the username and the
-        status code
+        """ Test for user registration form your specifying the username and thestatus code
         """
         register_details = {
                 'username': 'someone', 
@@ -80,10 +79,7 @@ class AuthenticationTestCase(unittest.TestCase):
         self.assertEqual(response_data.get('email'), "nobody@yahoo.com")
 
     def test_user_can_not_register_with_exsiting_email(self):
-        """ 
-        Test for user registration form your specifying the username and the
-        status code
-        """
+        """ Test for user cant register with an existing email"""
         register_details = {
                 'username': 'so2meone', 
                 'email':'anonymous@yahoo.com',
@@ -100,6 +96,7 @@ class AuthenticationTestCase(unittest.TestCase):
         self.assertIsNone(response_data.get('email'))
 
     def test_if_user_can_login_with_email(self):
+        """ Test for user loggin in with email """
     	login_details = {
     	'email': 'anonymous@yahoo.com',
     	'password': 'anything'}
@@ -118,10 +115,13 @@ class AuthenticationTestCase(unittest.TestCase):
      	#import pdb; pdb.set_trace()
      	self.assertEqual(response.status_code, 200)
     def test_logout_page(self):
+        """ Test for logout page"""
     	response = self.client.post(url_for('api.logout'),headers=self.get_api_headers(self.token))
 
      	self.assertEqual(response.status_code, 201)
+
     def test_unregistered_user_cant_login(self):
+        """Test for unregistered user cant login """
     	login_details = {
                 'email': 'anonymous1@yahoo.com',
                 'password': 'anything'}
