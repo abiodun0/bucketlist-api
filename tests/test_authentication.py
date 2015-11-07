@@ -79,6 +79,26 @@ class AuthenticationTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response_data.get('email'), "nobody@yahoo.com")
 
+    def test_user_can_not_register_with_exsiting_email(self):
+        """ 
+        Test for user registration form your specifying the username and the
+        status code
+        """
+        register_details = {
+                'username': 'so2meone', 
+                'email':'anonymous@yahoo.com',
+                'password': 'nothing',
+            }
+        response = self.client.post(
+            url_for('api.register'),
+            headers=self.get_api_headers(),
+            data=json.dumps(register_details)
+        )
+        response_data = json.loads(response.data)
+        #import pdb; pdb.set_trace()
+        self.assertEqual(response.status_code, 406)
+        self.assertIsNone(response_data.get('email'))
+
     def test_if_user_can_login_with_email(self):
     	login_details = {
     	'email': 'anonymous@yahoo.com',

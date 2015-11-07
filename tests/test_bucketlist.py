@@ -1,8 +1,9 @@
 import unittest
 import json
+import base64
 from flask import current_app, url_for, jsonify, g
 from app import create_app, db
-from app.models import User
+from app.models import User, Bucketlist
 
 class BucketlistTestCase(unittest.TestCase):
 	
@@ -44,8 +45,8 @@ class BucketlistTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-   	def get_api_headers(self, email='', password=''): 
-   		return {
+    def get_api_headers(self, email='',password=''):
+    	return {
             'Authorization':
                 'Basic ' + base64.b64encode(
                     (email + ':' + password).encode('utf-8')).decode('utf-8'),
@@ -53,7 +54,44 @@ class BucketlistTestCase(unittest.TestCase):
             'Content-Type': 'application/json'
             }
 
-    def test_for_forbidden_protected_url(self):
-    	response = self.client.get(url_for('api.bucketlists'),headers=self.get_api_headers())
+
+    def test_for_bad_request(self):
+    	new_bucket_item = {
+    	"bucketlist_name": "New Bucketlist"
+    	}
+    	response = self.client.post(url_for('api.bucketlists'),headers=self.get_api_headers(self.token),
+    		data=new_bucket_item
+    		)
+
+    	self.assertEqual(response.status_code,400)
+
+    def test_for_new_bucketlist_item(self):
+    	new_bucket_item = {
+    	"bucketlist_name": "New Bucketlist"
+    	}
+    	response = self.client.post(url_for('api.bucketlists'),headers=self.get_api_headers(self.token),
+    		data=json.dumps(new_bucket_item)
+    		)
 
     	self.assertEqual(response.status_code,201)
+
+    def test_for_method_not_allowed(self):
+    	response = self.client.put(url_for('api.bucketlists'),headers=self.get_api_headers())
+
+    	self.assertEqual(response.status_code,405)
+
+
+    def test_for_protected_url(self):
+    	response = self.client.get(url_for('api.bucketlists'),headers=self.get_api_headers())
+
+    	self.assertEqual(response.status_code,401)
+
+    def test_for_bucket_list_item_not_found(self):
+    	response = self.client.get(url_for('api.manage_bucketlist',id=2),headers=self.get_api_headers(self.token))
+
+    	self.assertEqual(response.status_code,404)
+
+    def test_for_url_not_found(self):
+    	response = self.client.get(url_for('api.bucketlists') + '/custompage',headers=self.get_api_headers(self.token))
+
+    	self.assertEqual(response.status_code,404)
