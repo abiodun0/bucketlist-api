@@ -53,30 +53,57 @@ GET <br>/bucketlists/:id/items/?q=bucket|Empty|Search for bucketlist items that 
 
 ##Example Requests
 ```
-$ curl -u abiodun2@golden0.com password -i http://localhost:5000/api/v1/bucketlist/?limit=1
+$ curl -u abiodun2@golden0.com password -i http://localhost:5000/api/v1/bucketlist/1/items?page=2
 HTTP/1.0 200 OK
 Content-Type: application/json
-Content-Length: 444
+Content-Length: 1157
 Server: Werkzeug/0.10.4 Python/2.7.10
-Date: Sat, 07 Nov 2015 16:00:42 GMT
+Date: Sun, 08 Nov 2015 14:43:25 GMT
 
 {
   "created_by": "abiodun2@golden0.com", 
-  "current_page": 1, 
+  "current_page": 2, 
   "items": [
     {
-      "created_by": "abiodun2@golden0.com", 
-      "date_created": "Sat, 07 Nov 2015 16:51:58 GMT", 
+      "date_created": "Sun, 08 Nov 2015 15:34:57 GMT", 
+      "done": false, 
+      "id": 5, 
+      "last_modified": "Sun, 08 Nov 2015 15:34:57 GMT", 
+      "name": "item 100 "
+    }, 
+    {
+      "date_created": "Sun, 08 Nov 2015 15:34:57 GMT", 
+      "done": false, 
+      "id": 6, 
+      "last_modified": "Sun, 08 Nov 2015 15:34:57 GMT", 
+      "name": "item 20 "
+    }, 
+    {
+      "date_created": "Sun, 08 Nov 2015 15:34:57 GMT", 
+      "done": false, 
+      "id": 7, 
+      "last_modified": "Sun, 08 Nov 2015 15:34:57 GMT", 
+      "name": "item 40 "
+    }, 
+    {
+      "date_created": "Sun, 08 Nov 2015 14:15:42 GMT", 
+      "done": false, 
+      "id": 2, 
+      "last_modified": "Sun, 08 Nov 2015 14:15:42 GMT", 
+      "name": "item 50 "
+    }, 
+    {
+      "date_created": "Sun, 08 Nov 2015 08:01:56 GMT", 
+      "done": false, 
       "id": 1, 
-      "items": [], 
-      "last_modified": "Sat, 07 Nov 2015 16:51:58 GMT", 
-      "name": "No 1", 
-      "no_of_items": 0
+      "last_modified": "Sun, 08 Nov 2015 08:01:56 GMT", 
+      "name": "item 60 "
     }
   ], 
-  "next_page": "http://localhost:5000/api/v1/bucketlist/?page=2", 
-  "prev_page": null, 
-  "total_item": 2
+  "name": "bucketlist 1", 
+  "next_page": null, 
+  "prev_page": "http://localhost:5000/api/v1/bucketlist/1/items?page=1", 
+  "total_item": 10
 }
 ```
 
