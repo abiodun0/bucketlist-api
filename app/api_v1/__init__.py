@@ -1,4 +1,4 @@
-""" Initializes the flask blue print app withing the module"""
+""" Initializes the flask blue print app within the module"""
 from flask import Blueprint
 
 #this is set to a variable
