@@ -106,6 +106,7 @@ class BucketlistTestCase(unittest.TestCase):
     	response = self.client.get(url_for('api.bucketlists'),headers=self.get_api_headers())
 
     	self.assertEqual(response.status_code,401)
+    
 
     def test_for_not_authorized(self):
         """Test for bucketlist can only be accessed by the owner"""

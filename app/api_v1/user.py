@@ -34,5 +34,7 @@ def register():
 @auth.login_required
 def user(id):
 	user = User.query.filter_by(id=id).first()
-	return jsonify(user.to_json())
+	response = jsonify(user.to_json())
+	response.status_code = 200
+	return response
 

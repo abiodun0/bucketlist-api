@@ -38,6 +38,7 @@ POST /auth/login|{<br>'email':'required',<br>'password':'required'<br>}|Logs a u
 GET /auth/logout|Empty|Logs out this user|FALSE
 POST /bucketlists/|{<br>'bucketlist_name':required<br>}|Create a new bucket list|FALSE
 GET /bucketlists/|Empty|List all the created bucket lists|FASLE
+GET /user/:id|Empty|Get information of a particular user |FALSE
 GET /bucketlists/:id|Empty|Get single bucket list (along with it's items)|FALSE
 PUT /bucketlists/:id|{<br>'bucketlist_name':optional<br>}|Update this bucket list|FALSE
 DELETE /bucketlists/:id|Empty|Delete this single bucket list|FALSE

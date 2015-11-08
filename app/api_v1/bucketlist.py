@@ -69,7 +69,7 @@ def manage_bucketlist(id):
 		return custom_response("sucessfully deleted {}".format(bucketlist.name),204)
 
 #Bucketlist item editing endpoint
-@api.route('/bucketlist/<int:id>/items/',methods=['GET','POST'])
+@api.route('/bucketlist/<int:id>/items',methods=['GET','POST'])
 @auth.login_required
 def bucketlist_items(id):
 	"""This decorator handles the bucketlist item for a particular bucket list /v1/:id/items"""
