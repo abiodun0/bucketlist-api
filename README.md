@@ -47,7 +47,7 @@ DELETE <br>/bucketlists/:id/items/:item_id|Empty|Delete an item in a bucket list
 GET <br>/bucketlists/?limit=20|Empty|List 20 bucketlist collections|FALSE
 GET <br>/bucketlists/?q=bucketlist|Empty|Search for bucketlist that contains bucketlist in its name|FALSE
 GET <br>/bucketlists/:id/items/?limit=20|Empty|List 20 bucketlist collections items|FALSE
-GET <br>/bucketlists/:id/items/?q=bucketlist|Empty|Search for bucketlist items that contains bucketlist in its name|FALSE
+GET <br>/bucketlists/:id/items/?q=bucket|Empty|Search for bucketlist items that contains bucket in its name|FALSE
 
 
 ##Example Requests
