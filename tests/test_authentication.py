@@ -4,6 +4,7 @@ import json
 from flask import current_app, url_for, jsonify, g
 from app import create_app, db
 from app.models import User
+from app.test import *
 
 
 
