@@ -1,4 +1,4 @@
-from flask import jsonify, request, current_app, url_for
+from flask import jsonify, request, current_app, url_for, abort
 from .authentication import auth
 from ..models import User
 from . import api
@@ -34,6 +34,8 @@ def register():
 @auth.login_required
 def user(id):
 	user = User.query.filter_by(id=id).first()
+	if user is None:
+		return abort(500)
 	response = jsonify(user.to_json())
 	response.status_code = 200
 	return response
