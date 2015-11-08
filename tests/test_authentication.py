@@ -142,7 +142,7 @@ class AuthenticationTestCase(unittest.TestCase):
         response = self.client.get(url_for('api.user',id=1),headers=self.get_api_headers(self.token))
 
         self.assertEqual(response.status_code, 200)
-    def test_user_page(self):
+    def test_for_user_not_found(self):
         """ Test for logout page"""
         response = self.client.get(url_for('api.user',id=5),headers=self.get_api_headers(self.token))
 
