@@ -97,6 +97,8 @@ def bucketlist_items(id):
 
 		#gets all the paginated items under this bucket list
 		bucket_items = paginate(bucketlist.items,'api.bucketlist_items',options,Item,id)
+		bucket_items['name'] = bucketlist.name
+		bucket_items['created_by'] = bucketlist.owned_by.email
 
 		response = jsonify(bucket_items)
 		response.status_code = 200

@@ -7,7 +7,7 @@ class BaseConfig:
     """
     
     SECRET_KEY = os.environ.get('BUCKETLIST_SECRET_KEY') or 'NoSecretKey'
-    DEFAULT_PER_PAGE = 2
+    DEFAULT_PER_PAGE = 5
     MAX_PER_PAGE = 1000
     TOKEN_EXPIRE = 6000
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
