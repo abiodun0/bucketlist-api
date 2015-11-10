@@ -35,10 +35,10 @@ def verify_password(email_or_token, password):
 
     #checks for the email and returns false if not avaible
     user = User.query.filter_by(email=email_or_token).first() 
-    if not user:
+    if not user or not user.verify_password(password):
 		return False
     g.current_user = user
-    return user.verify_password(password)
+    return True
 
  #Login endpoint
 @api.route('/auth/login/', methods=['POST'])

@@ -12,7 +12,6 @@ class BaseConfig:
     TOKEN_EXPIRE = 6000
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    FLASK_COVERAGE = "ieoajifeoajefoa"
 
         
 class DevelopmentConfig(BaseConfig):
