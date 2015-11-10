@@ -31,7 +31,6 @@ class AuthenticationTestCase(unittest.TestCase):
 
         self.client = self.app.test_client()
 
-        #response = self.client.post()
 
         login_details = {
     	'email': 'anonymous@yahoo.com',
@@ -90,7 +89,6 @@ class AuthenticationTestCase(unittest.TestCase):
             data=json.dumps(register_details)
         )
         response_data = json.loads(response.data)
-        #import pdb; pdb.set_trace()
         self.assertEqual(response.status_code, 406)
         
 
@@ -107,7 +105,6 @@ class AuthenticationTestCase(unittest.TestCase):
             data=json.dumps(register_details)
         )
         response_data = json.loads(response.data)
-        #import pdb; pdb.set_trace()
         self.assertEqual(response.status_code, 406)
         self.assertIsNone(response_data.get('email'))
 
@@ -121,14 +118,12 @@ class AuthenticationTestCase(unittest.TestCase):
             headers=self.get_api_headers(),
             data=json.dumps(login_details)
             )
-        #import pdb; pdb.set_trace()
         self.assertEqual(response.status_code, 200)
     def test_protected_url(self):
 
     	response = self.client.get(url_for('api.bucketlists'),
      		headers=self.get_api_headers(self.token)
      		)
-     	#import pdb; pdb.set_trace()
      	self.assertEqual(response.status_code, 200)
     def test_logout_page(self):
         """ Test for logout page"""
