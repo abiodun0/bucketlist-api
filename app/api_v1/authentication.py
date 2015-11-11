@@ -28,10 +28,10 @@ def verify_password(email_or_token, password):
     if password is '':
 
         #get the user with the assigned token and store it in the global variable object
-		g.current_user = User.verify_auth_token(email_or_token) 
+        g.current_user = User.verify_auth_token(email_or_token) 
 
         #returns true if it's verified succesfully
-		return g.current_user is not None
+        return g.current_user is not None
 
     #checks for the email and returns false if not avaible
     user = User.query.filter_by(email=email_or_token).first() 
@@ -68,7 +68,7 @@ def logout():
 
 
 def get_auth_token():
-    """ Utility funciton to generate authentication token
+    """ Utility function to generate authentication token
     @params None
     @return token
     """

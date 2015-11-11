@@ -27,7 +27,7 @@ def not_found(message, email=" "):
     response.status_code = 404
     return response
 
-def custom_response(message,status_code):
+def custom_response(message, status_code):
     #handles other custom messages set throught out the api blue-print
     response = jsonify({'message': message})
     response.status_code = status_code

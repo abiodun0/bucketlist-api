@@ -28,12 +28,12 @@ class BucketlistTestCase(unittest.TestCase):
         )
         user.save()
 
-        self.user = User(email="abiodun12@golden0.com",password="passes",username="abiodun")
+        self.user = User(email="abiodun12@golden0.com", password="passes", username="abiodun")
         self.user.save()
         self.bucket_item = Bucketlist(name="Bucket List 1", user_id=self.user.id)
         self.bucket_item.save() 
 
-        self.user2 = User(email="abiodun2@golden0.com",password="passes",username="bimps")
+        self.user2 = User(email="abiodun2@golden0.com", password="passes", username="bimps")
         self.user2.save()
         self.bucket_item2 = Bucketlist(name="Bucket List 2", user_id=self.user2.id)
         self.bucket_item2.save() 
@@ -116,16 +116,16 @@ class BucketlistTestCase(unittest.TestCase):
         """Test for bucketlist can only be accessed by the owner"""
 
     	#for /api/v1/:id/
-        response = self.client.get(url_for('api.manage_bucketlist',id=1),headers=self.get_api_headers(self.token))
+        response = self.client.get(url_for('api.manage_bucketlist', id=1),headers=self.get_api_headers(self.token))
         #for /api/v1/:id/items
-    	response2 = self.client.get(url_for('api.bucketlist_items',id=1),headers=self.get_api_headers(self.token))
+    	response2 = self.client.get(url_for('api.bucketlist_items', id=1),headers=self.get_api_headers(self.token))
 
     	self.assertEqual(response.status_code,401)
     	self.assertEqual(response2.status_code,401)
 
     def test_get_bucketlist_authorized(self):
         """Test for authorized users can access bucket list"""
-    	response = self.client.get(url_for('api.manage_bucketlist',id=3),headers=self.get_api_headers(self.token))
+    	response = self.client.get(url_for('api.manage_bucketlist', id=3),headers=self.get_api_headers(self.token))
 
     	self.assertEqual(response.status_code,200)
 
@@ -140,13 +140,13 @@ class BucketlistTestCase(unittest.TestCase):
     	new_item = {
     	    	"item name": "New Item Bucketlist"
     	}
-    	response = self.client.post(url_for('api.bucketlist_items',id=3),headers=self.get_api_headers(self.token),
+    	response = self.client.post(url_for('api.bucketlist_items', id=3),headers=self.get_api_headers(self.token),
     		data=json.dumps(new_item))
 
     	self.assertEqual(response.status_code,201)
     def test_get_bucketlist_no_bucket_list(self):
         """Test for bucketlist collection doesn't exist"""
-    	response = self.client.get(url_for('api.bucketlist_items',id=5),headers=self.get_api_headers(self.token))
+    	response = self.client.get(url_for('api.bucketlist_items', id=5),headers=self.get_api_headers(self.token))
 
     	self.assertEqual(response.status_code,404)
 
@@ -155,7 +155,7 @@ class BucketlistTestCase(unittest.TestCase):
     	edit_bucket_item = {
     	"bucketlist_name": "Edited Bucketlist"
     	}
-    	response = self.client.put(url_for('api.manage_bucketlist',id=3),headers=self.get_api_headers(self.token),
+    	response = self.client.put(url_for('api.manage_bucketlist', id=3),headers=self.get_api_headers(self.token),
     		data=json.dumps(edit_bucket_item)
     		)
 
@@ -165,20 +165,20 @@ class BucketlistTestCase(unittest.TestCase):
 
     def test_delete_bucketlist(self):
         """ Test for delete bucket list"""
-    	response = self.client.delete(url_for('api.manage_bucketlist',id=3),headers=self.get_api_headers(self.token)
+    	response = self.client.delete(url_for('api.manage_bucketlist', id=3),headers=self.get_api_headers(self.token)
     		)
 
     	self.assertEqual(response.status_code,204)
 
     def test_for_bucket_list_item_not_found(self):
         """ test for get bucketlist item route /api/v1/:id/items not found """
-    	response = self.client.get(url_for('api.manage_bucketlist',id=5),headers=self.get_api_headers(self.token))
+    	response = self.client.get(url_for('api.manage_bucketlist', id=5),headers=self.get_api_headers(self.token))
 
     	self.assertEqual(response.status_code,404)
 
     def test_for_url_not_found(self):
         """ test for none existing url within the api applicaito """
-    	response = self.client.get(url_for('api.bucketlists') + '/custompage',headers=self.get_api_headers(self.token))
+    	response = self.client.get(url_for('api.bucketlists') + '/custompage', headers=self.get_api_headers(self.token))
 
     	self.assertEqual(response.status_code,404)
 

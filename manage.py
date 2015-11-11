@@ -10,6 +10,9 @@ from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
 from app import create_app, db, models
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+covdir = os.path.join(basedir, 'tmp/coverage')
+
 
 #create the app from the pre-configured action given by the user
 app = create_app(os.getenv('BUCKETLIST_LIST__API_CONFIG') or 'default')
@@ -39,8 +42,6 @@ def test(coverage=False):
         COV.save()
         print('Coverage Summary:')
         COV.report()
-        basedir = os.path.abspath(os.path.dirname(__file__))
-        covdir = os.path.join(basedir, 'tmp/coverage')
         COV.html_report(directory=covdir)
         print('HTML version: file://%s/index.html' % covdir)
         COV.erase()

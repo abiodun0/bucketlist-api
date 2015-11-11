@@ -7,9 +7,9 @@ from . import api
 from .response import unauthorized, forbidden, not_found, custom_response
 
 #Item Editing endpoint
-@api.route('/bucketlist/<int:id>/items/<int:item_id>',methods=['GET','PUT','DELETE'])
+@api.route('/bucketlist/<int:id>/items/<int:item_id>', methods=['GET','PUT','DELETE'])
 @auth.login_required
-def bucketlist_item(id,item_id):
+def bucketlist_item(id, item_id):
 	"""Decorated function to handle the GET POST and DELETE request for /v1/:id/:item:id/ endpoint """
 
 	bucketlist = Bucketlist.query.filter_by(id=id).first()

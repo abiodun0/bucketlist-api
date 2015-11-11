@@ -7,7 +7,7 @@ from .response import notacceptable, forbidden, unauthorized
 
 
 
-@api.route('/auth/register',methods=['POST'])
+@api.route('/auth/register', methods=['POST'])
 def register():
 	email = request.json.get('email')
 	password = request.json.get('password')
@@ -30,7 +30,7 @@ def register():
 	return response
 
 
-@api.route('/user/<int:id>',methods=['GET'])
+@api.route('/user/<int:id>', methods=['GET'])
 @auth.login_required
 def user(id):
 	user = User.query.filter_by(id=id).first()

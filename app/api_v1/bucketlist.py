@@ -13,7 +13,7 @@ from .response import unauthorized, forbidden, custom_response, not_found
 @api.route('/bucketlist/', methods=['POST','GET'])
 @auth.login_required
 def bucketlists():
-	""" This takes care of the GET and the POST request for /v1/bucketlist endpoint"""
+	""" This funciton takes care of the GET and the POST request for /v1/bucketlist endpoint"""
 
 	if request.method ==  'POST':
 		#returns status code of 201 and json success message for a newly created bucket list
@@ -21,7 +21,7 @@ def bucketlists():
 		bucketlist = Bucketlist(name=name)
 		bucketlist.create()
 		bucketlist.save()
-		return custom_response("successfully created {}".format(name),201)
+		return custom_response("Successfully created {}".format(name),201)
 	if request.method == 'GET':
 
 		#returns status code of 200 and a list of bucket list created by the user
@@ -37,10 +37,10 @@ def bucketlists():
         return response
 
 #Single bucket list endpoint
-@api.route('/bucketlist/<int:id>',methods=['GET','PUT','DELETE'])
+@api.route('/bucketlist/<int:id>', methods=['GET','PUT','DELETE'])
 @auth.login_required
 def manage_bucketlist(id):
-	""" This decorator manages a particular bucket list of id : id """
+	""" This function manages a particular bucket list of id : id """
 
 	#assing the bucketlist object to a variable
 	bucketlist = Bucketlist.query.filter_by(id=id).first()
@@ -61,18 +61,18 @@ def manage_bucketlist(id):
 		name = request.json.get("bucketlist_name")
 		bucketlist.edit(name)
 		bucketlist.save()
-		return custom_response("successfull updated {}".format(name),201)
+		return custom_response("Successfully updated {}".format(name),201)
 
 	if request.method == 'DELETE':
 		#handles the deletion of a particular bucket list item
 		bucketlist.delete()
-		return custom_response("sucessfully deleted {}".format(bucketlist.name),204)
+		return custom_response("Sucessfully deleted {}".format(bucketlist.name),204)
 
 #Bucketlist item editing endpoint
-@api.route('/bucketlist/<int:id>/items',methods=['GET','POST'])
+@api.route('/bucketlist/<int:id>/items', methods=['GET','POST'])
 @auth.login_required
 def bucketlist_items(id):
-	"""This decorator handles the bucketlist item for a particular bucket list /v1/:id/items"""
+	"""This function handles the bucketlist item for a particular bucket list /v1/:id/items"""
 
 	bucketlist = Bucketlist.query.filter_by(id=id).first()
 	if bucketlist is None:

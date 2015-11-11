@@ -29,7 +29,7 @@ class BucketlistTestCase(unittest.TestCase):
         user.save()
 
 
-        self.user = User(email="abiodun1@golden0.com",password="passes",username="abiodun")
+        self.user = User(email="abiodun1@golden0.com", password="passes", username="abiodun")
         self.user.save()
         
         self.bucket_item = Bucketlist(name="Bucket List 1", user_id=self.user.id)
@@ -38,7 +38,7 @@ class BucketlistTestCase(unittest.TestCase):
         self.item = Item(name="Item 1", bucketlist_id=self.bucket_item.id)
         self.item.save()
 
-        self.user2 = User(email="abiodun2@golden0.com",password="passes",username="bimps")
+        self.user2 = User(email="abiodun2@golden0.com", password="passes", username="bimps")
         self.user2.save()
         self.bucket_item2 = Bucketlist(name="Bucket List 2", user_id=self.user2.id)
         self.bucket_item2.save() 
@@ -85,13 +85,13 @@ class BucketlistTestCase(unittest.TestCase):
     def test_for_error_bucketlist_or_item(self):
         """ test exception on the bucketlist item"""
         #response for not found bucketlists or item
-        response = self.client.get(url_for('api.bucketlist_item',id=5,item_id=5),headers=self.get_api_headers(self.token))
+        response = self.client.get(url_for('api.bucketlist_item', id=5, item_id=5),headers=self.get_api_headers(self.token))
 
         #response for item not belonging to a bucketlist
-        response_two= self.client.get(url_for('api.bucketlist_item',id=3,item_id=1),headers=self.get_api_headers(self.token))
+        response_two= self.client.get(url_for('api.bucketlist_item', id=3, item_id=1),headers=self.get_api_headers(self.token))
 
         #repsone for user not authorized for the bucketlist colleciton
-        response_three = self.client.get(url_for('api.bucketlist_item',id=2,item_id=2),headers=self.get_api_headers(self.token))
+        response_three = self.client.get(url_for('api.bucketlist_item', id=2, item_id=2),headers=self.get_api_headers(self.token))
 
         self.assertEqual(response.status_code,404)
         self.assertEqual(response_two.status_code,403)
@@ -104,12 +104,12 @@ class BucketlistTestCase(unittest.TestCase):
         }
 
         #response for get request
-        response = self.client.get(url_for('api.bucketlist_item',id=3,item_id=3),headers=self.get_api_headers(self.token))
+        response = self.client.get(url_for('api.bucketlist_item', id=3, item_id=3),headers=self.get_api_headers(self.token))
         #response for the put request
-        response_two = self.client.put(url_for('api.bucketlist_item',id=3,item_id=3),headers=self.get_api_headers(self.token),
+        response_two = self.client.put(url_for('api.bucketlist_item', id=3, item_id=3),headers=self.get_api_headers(self.token),
             data=json.dumps(item))
         #response for delete request 
-        response_three= self.client.delete(url_for('api.bucketlist_item',id=3,item_id=3),headers=self.get_api_headers(self.token))
+        response_three= self.client.delete(url_for('api.bucketlist_item', id=3, item_id=3),headers=self.get_api_headers(self.token))
 
         self.assertEqual(response.status_code,200)
         self.assertEqual(response_two.status_code,201)
