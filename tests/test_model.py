@@ -31,11 +31,6 @@ class ModelTestCase(unittest.TestCase):
         bucketlist = Bucketlist.query.all()
         self.assertEqual(len(bucketlist),1)
 
-    def test_for_user_get_bucket_list(self):
-        """Test for get the bucketlist for a particular user"""
-        bucketlists = self.user.get_bucketlists()
-
-        self.assertIsNotNone(bucketlists)
     def test_for_data_delete(self):
         """ Test for the delete feature"""
         self.bucket_item.delete()

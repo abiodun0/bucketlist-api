@@ -2,14 +2,13 @@ import os
 COV = None
 if os.environ.get('FLASK_COVERAGE'):
     import coverage
-    COV = coverage.coverage(branch=True, include='app/*')
+    COV = coverage.coverage(branch=False, include='app/*')
     COV.start()
 
     
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
-
-from app import create_app, db
+from app import create_app, db, models
 
 
 #create the app from the pre-configured action given by the user
@@ -28,7 +27,10 @@ def test(coverage=False):
     if coverage and not os.environ.get('FLASK_COVERAGE'):
         import sys
         os.environ['FLASK_COVERAGE'] = '1'
+
+        #restarts the script with the enviroment variable set
         os.execvp(sys.executable, [sys.executable] + sys.argv)
+
     import unittest
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
@@ -44,7 +46,7 @@ def test(coverage=False):
         COV.erase()
 
 
-from app import models
+
 
 if __name__ == '__main__':
 	os.environ.update({'BUCKETLIST_LIST__API_CONFIG': 'development'})

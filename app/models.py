@@ -80,15 +80,9 @@ class User(BaseModel):
 		}
 		return json_items
 
-	#utility function to get bucketlists created by the user
-	def get_bucketlists(self):
-		bucketlists = Bucketlist.query.filter_by(
-                user_id=self.id)
-		return bucketlists
-
 	@property
 	def password(self):
-	    raise AttributeError("This attribute is not readbale")
+	    raise AttributeError("This attribute is not readable")
 	
 	@password.setter
 	def password(self, password):

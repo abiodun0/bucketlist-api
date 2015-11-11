@@ -1,4 +1,4 @@
-from flask import g, jsonify,request, current_app, url_for
+from flask import g, jsonify,request,session
 from flask.ext.httpauth import HTTPBasicAuth
 from .response import unauthorized, forbidden
 from . import api
@@ -61,7 +61,7 @@ def login():
 @api.route('/auth/logout/', methods=['GET'])
 @auth.login_required
 def logout():
-
+    session.clear()
     response = jsonify({'status': 'Logged Out'})
     response.status_code = 201
     return response
